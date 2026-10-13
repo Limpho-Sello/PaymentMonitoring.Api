@@ -1,0 +1,15 @@
+# .NET build output
+**/bin/
+**/obj/
+
+# Visual Studio files
+.vs/
+
+# Local environment files
+.env
+.env.*
+
+# User Secrets files
+secrets.json
+
+*.csproj.user
