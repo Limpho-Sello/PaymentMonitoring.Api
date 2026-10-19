@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="PaymentMonitoring.Api.Tests/PaymentMonitoring.Api.Tests.csproj" Id="cfb21b57-a9d3-4c90-a61e-cc37c2e662c0" />
   <Project Path="PaymentMonitoring.Api/PaymentMonitoring.Api.csproj" />
 </Solution>
