@@ -105,46 +105,48 @@ builder.Services.AddAuthentication("Bearer")
 var app = builder.Build();
 
 
-using (var scope = app.Services.CreateScope())
+if (!app.Environment.IsEnvironment("Testing"))
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var passwordService = scope.ServiceProvider.GetRequiredService<PasswordService>();
-
-    if (!context.Users.Any(u => u.Username == "testuser"))
+    using var scope = app.Services.CreateScope();
     {
-        var testUser = new User
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var passwordService = scope.ServiceProvider.GetRequiredService<PasswordService>();
+
+        if (!context.Users.Any(u => u.Username == "testuser"))
         {
-            Username = "testuser",
-            FullName = "Test Customer",
-            IdNumber = "9001010000000",
-            AccountNumber = "1234567890",
-            PasswordHash = passwordService.HashPassword("TestPassword123!"),
-            Role = "Customer",
-            IsActive = true
-        };
+            var testUser = new User
+            {
+                Username = "testuser",
+                FullName = "Test Customer",
+                IdNumber = "9001010000000",
+                AccountNumber = "1234567890",
+                PasswordHash = passwordService.HashPassword("TestPassword123!"),
+                Role = "Customer",
+                IsActive = true
+            };
 
-        context.Users.Add(testUser);
-        context.SaveChanges();
-    }
+            context.Users.Add(testUser);
+            context.SaveChanges();
+        }
 
-    if (!context.Users.Any(u => u.Username == "employee1"))
-    {
-        var employeeUser = new User
+        if (!context.Users.Any(u => u.Username == "employee1"))
         {
-            Username = "employee1",
-            FullName = "Test Employee",
-            IdNumber = "9002020000000",
-            AccountNumber = "9876543210",
-            PasswordHash = passwordService.HashPassword("EmployeePassword123!"),
-            Role = "Employee",
-            IsActive = true
-        };
+            var employeeUser = new User
+            {
+                Username = "employee1",
+                FullName = "Test Employee",
+                IdNumber = "9002020000000",
+                AccountNumber = "9876543210",
+                PasswordHash = passwordService.HashPassword("EmployeePassword123!"),
+                Role = "Employee",
+                IsActive = true
+            };
 
-        context.Users.Add(employeeUser);
-        context.SaveChanges();
+            context.Users.Add(employeeUser);
+            context.SaveChanges();
+        }
     }
 }
-
 
 
 // Configure the HTTP request pipeline.
